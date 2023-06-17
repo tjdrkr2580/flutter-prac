@@ -6,42 +6,72 @@ void main() {
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
-
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  List<int> numbers = [];
-
-  void onClicked() {
+  bool isVisible = true;
+  void onToggle() {
     setState(() {
-      numbers.add(numbers.length);
+      isVisible = !isVisible;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+          textTheme: const TextTheme(titleLarge: TextStyle(color: Colors.red))),
       home: Scaffold(
           backgroundColor: Colors.white,
           body: Center(
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              const Text(
-                "Counter",
-                style: TextStyle(fontSize: 30, color: Colors.black),
-              ),
-              for (var n in numbers) Text("$n"),
+              isVisible
+                  ? const MyWidget()
+                  : const Text("Not Visible",
+                      style: TextStyle(color: Colors.black)),
               IconButton(
-                iconSize: 40,
-                onPressed: onClicked,
-                icon: const Icon(
-                  Icons.add_box_rounded,
-                ),
-              )
+                  onPressed: onToggle,
+                  icon: const Icon(
+                    Icons.remove_red_eye,
+                    color: Colors.black,
+                  ))
             ]),
           )),
+    );
+  }
+}
+
+class MyWidget extends StatefulWidget {
+  const MyWidget({
+    super.key,
+  });
+
+  @override
+  State<MyWidget> createState() => _MyWidgetState();
+}
+
+class _MyWidgetState extends State<MyWidget> {
+  @override
+  void initState() {
+    print("init State!");
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    print("bye");
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      "My Text Title",
+      style: TextStyle(
+          fontSize: 30, color: Theme.of(context).textTheme.titleLarge?.color),
     );
   }
 }
