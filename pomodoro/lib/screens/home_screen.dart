@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 class HomeWidget extends StatefulWidget {
@@ -8,7 +10,18 @@ class HomeWidget extends StatefulWidget {
 }
 
 class _MyWidgetState extends State<HomeWidget> {
-  void onPressed = () => {};
+  int totalSeconds = 1500;
+  late Timer timer;
+
+  void onTick(Timer timer) {
+    setState(() {
+      totalSeconds = totalSeconds - 1;
+    });
+  }
+
+  void onStartPressed() {
+    timer = Timer.periodic(const Duration(seconds: 1), onTick);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +33,9 @@ class _MyWidgetState extends State<HomeWidget> {
             flex: 1,
             child: Container(
               alignment: Alignment.bottomCenter,
-              child: const Text(
-                "25:00",
-                style: TextStyle(
+              child: Text(
+                "$totalSeconds",
+                style: const TextStyle(
                     color: Colors.white,
                     fontSize: 80,
                     fontWeight: FontWeight.w700),
@@ -33,7 +46,7 @@ class _MyWidgetState extends State<HomeWidget> {
               flex: 3,
               child: Center(
                 child: IconButton(
-                    onPressed: () {},
+                    onPressed: onStartPressed,
                     iconSize: 80,
                     icon: const Icon(
                       Icons.play_circle_outline,
@@ -46,7 +59,9 @@ class _MyWidgetState extends State<HomeWidget> {
                 children: [
                   Expanded(
                     child: Container(
-                        decoration: const BoxDecoration(color: Colors.white),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(50)),
                         child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
