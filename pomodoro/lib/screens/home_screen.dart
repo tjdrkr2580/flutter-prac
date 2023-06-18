@@ -10,14 +10,24 @@ class HomeWidget extends StatefulWidget {
 }
 
 class _MyWidgetState extends State<HomeWidget> {
-  int totalSeconds = 1500;
+  static const twentyMinutes = 1500;
+  int totalSeconds = twentyMinutes;
   late Timer timer;
   bool isRunning = false;
+  int pomodors = 0;
 
   void onTick(Timer timer) {
-    setState(() {
-      totalSeconds = totalSeconds - 1;
-    });
+    if (totalSeconds == 0) {
+      setState(() {
+        totalSeconds = twentyMinutes;
+        pomodors = pomodors + 1;
+      });
+      onPausePressed();
+    } else {
+      setState(() {
+        totalSeconds = totalSeconds - 1;
+      });
+    }
   }
 
   void onPausePressed() {
@@ -34,6 +44,11 @@ class _MyWidgetState extends State<HomeWidget> {
     });
   }
 
+  String format(int seconds) {
+    var duration = Duration(seconds: seconds);
+    return duration.toString().split(".").first.substring(2, 7);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +60,7 @@ class _MyWidgetState extends State<HomeWidget> {
             child: Container(
               alignment: Alignment.bottomCenter,
               child: Text(
-                "$totalSeconds",
+                format(totalSeconds),
                 style: const TextStyle(
                     color: Colors.white,
                     fontSize: 80,
@@ -90,7 +105,7 @@ class _MyWidgetState extends State<HomeWidget> {
                                             .color,
                                         fontSize: 20,
                                         fontWeight: FontWeight.w500)),
-                                Text("0",
+                                Text("$pomodors",
                                     style: TextStyle(
                                         color: Theme.of(context)
                                             .textTheme
