@@ -12,6 +12,7 @@ class HomeWidget extends StatefulWidget {
 class _MyWidgetState extends State<HomeWidget> {
   int totalSeconds = 1500;
   late Timer timer;
+  bool isRunning = false;
 
   void onTick(Timer timer) {
     setState(() {
@@ -19,8 +20,18 @@ class _MyWidgetState extends State<HomeWidget> {
     });
   }
 
+  void onPausePressed() {
+    timer.cancel();
+    setState(() {
+      isRunning = false;
+    });
+  }
+
   void onStartPressed() {
     timer = Timer.periodic(const Duration(seconds: 1), onTick);
+    setState(() {
+      isRunning = true;
+    });
   }
 
   @override
@@ -46,12 +57,17 @@ class _MyWidgetState extends State<HomeWidget> {
               flex: 3,
               child: Center(
                 child: IconButton(
-                    onPressed: onStartPressed,
+                    onPressed: isRunning ? onPausePressed : onStartPressed,
                     iconSize: 80,
-                    icon: const Icon(
-                      Icons.play_circle_outline,
-                      color: Colors.white,
-                    )),
+                    icon: isRunning
+                        ? const Icon(
+                            Icons.pause_circle_outline,
+                            color: Colors.white,
+                          )
+                        : const Icon(
+                            Icons.play_circle_outline,
+                            color: Colors.white,
+                          )),
               )),
           Flexible(
               flex: 1,
