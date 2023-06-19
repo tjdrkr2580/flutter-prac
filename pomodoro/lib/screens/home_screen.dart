@@ -49,6 +49,14 @@ class _MyWidgetState extends State<HomeWidget> {
     return duration.toString().split(".").first.substring(2, 7);
   }
 
+  void onReset() {
+    setState(() {
+      totalSeconds = twentyMinutes;
+      pomodors = 0;
+    });
+    onPausePressed();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,19 +78,34 @@ class _MyWidgetState extends State<HomeWidget> {
           ),
           Flexible(
               flex: 3,
-              child: Center(
-                child: IconButton(
-                    onPressed: isRunning ? onPausePressed : onStartPressed,
-                    iconSize: 80,
-                    icon: isRunning
-                        ? const Icon(
-                            Icons.pause_circle_outline,
-                            color: Colors.white,
-                          )
-                        : const Icon(
-                            Icons.play_circle_outline,
-                            color: Colors.white,
-                          )),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(
+                    child: IconButton(
+                        onPressed: isRunning ? onPausePressed : onStartPressed,
+                        iconSize: 80,
+                        icon: isRunning
+                            ? const Icon(
+                                Icons.pause_circle_outline,
+                                color: Colors.white,
+                              )
+                            : const Icon(
+                                Icons.play_circle_outline,
+                                color: Colors.white,
+                              )),
+                  ),
+                  Center(
+                    child: IconButton(
+                      onPressed: onReset,
+                      icon: const Icon(
+                        Icons.restart_alt_rounded,
+                        color: Colors.white,
+                      ),
+                      iconSize: 80,
+                    ),
+                  )
+                ],
               )),
           Flexible(
               flex: 1,
