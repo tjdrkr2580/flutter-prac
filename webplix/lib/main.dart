@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:webplix/screens/home_screen.dart';
+import 'package:webplix/services/api_service.dart';
 
 void main() {
+  ApiService().getTodaysToons();
   runApp(const MyApp());
 }
 
