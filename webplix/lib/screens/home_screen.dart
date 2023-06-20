@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:webplix/models/webtoon_model.dart';
+import 'package:webplix/services/api_service.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  HomeScreen({super.key});
+
+  Future<List<WebtoonModel>> toons = ApiService.getTodaysToons();
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +18,15 @@ class HomeScreen extends StatelessWidget {
         ),
         foregroundColor: Colors.white,
         backgroundColor: Colors.black,
+      ),
+      body: FutureBuilder(
+        builder: (context, snapshot) {
+          if (snapshot.hasData == true) {
+            return const Text("data");
+          }
+          return const Text("loading");
+        },
+        future: toons,
       ),
     );
   }
