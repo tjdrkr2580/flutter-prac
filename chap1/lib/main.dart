@@ -9,47 +9,37 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: Scaffold(
-        body: Container(
-          decoration: const BoxDecoration(
-              gradient: LinearGradient(colors: [
-            Color.fromARGB(255, 26, 2, 80),
-            Color.fromARGB(255, 100, 95, 107),
-          ], begin: Alignment.topLeft, end: Alignment.bottomRight)),
-          child: const Center(
-              child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              constructorWidget(
-                text: '1',
-              ),
-              constructorWidget(
-                text: '2',
-              ),
-              constructorWidget(
-                text: '3',
-              ),
-            ],
-          )),
+        body: Gradient(
+          colors: [Colors.blue, Colors.white12],
         ),
       ),
     );
   }
 }
 
-class constructorWidget extends StatelessWidget {
-  const constructorWidget({
-    required this.text,
-    super.key,
-  });
-
-  final String text;
-
+class Gradient extends StatelessWidget {
+  const Gradient({super.key, required this.colors});
+  final List<Color> colors;
   @override
   Widget build(BuildContext context) {
-    return Text(text,
-        style: const TextStyle(
-            fontSize: 30, fontWeight: FontWeight.w600, color: Colors.white));
+    return Container(
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+              colors: colors,
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight)),
+      child: Center(
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            "assets/images/dice-2.png",
+            width: 150,
+          ),
+        ],
+      )),
+    );
   }
 }
